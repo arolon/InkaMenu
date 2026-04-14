@@ -25,3 +25,15 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+
+## Artifacts
+
+### Digital Menu (`artifacts/digital-menu`)
+- **Kind**: React + Vite web app (frontend-only)
+- **Preview Path**: `/`
+- Mobile-first Peruvian restaurant digital menu
+- Features: category/dietary filters, weekend specials carousel, dish detail modals, favorites (localStorage)
+- Menu data in: `artifacts/digital-menu/src/data/menuData.json`
+- Components: `MenuCard`, `FilterBar`, `ItemModal`, `WeekendSpecials`
+- Fonts: Playfair Display (serif headings) + Inter (sans body)
+- Color palette: warm terracotta / cream / deep brown tones

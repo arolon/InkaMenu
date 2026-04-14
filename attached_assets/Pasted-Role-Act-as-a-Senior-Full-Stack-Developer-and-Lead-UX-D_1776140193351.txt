@@ -1,0 +1,48 @@
+Role: Act as a Senior Full-Stack Developer and Lead UX Designer.
+
+Task: Build a high-performance, mobile-first digital menu web application inspired by the visual style of "El Inca" (elinka.ca/picturemenu).
+
+UI/UX Requirements:
+
+Visual-Centric Grid: Create a clean, elegant grid layout where high-quality food photography is the hero. Use cards with subtle shadows, rounded corners, and a premium "modern bistro" aesthetic.
+
+Dynamic Filtering System: Implement a persistent, horizontal-scroll filter bar with the following logic:
+
+Categories: Appetizers, Main Courses, Desserts, Drinks.
+
+Preference/Allergy Toggles: Add quick-toggle buttons for 'Gluten-Free', 'Vegetarian', 'Nut-Free', and 'Spicy'. When a toggle is active, the menu should filter items with smooth CSS transitions.
+
+Special Events Section: Create a distinct "Weekend Specials" section at the top of the feed with a unique background color or border to make it pop.
+
+Contextual Micro-copy: Add small "Badge" or "Tag" components to specific items for quick notes, such as:
+
+"Ask server for spicy sauces" (using a chili icon).
+
+"Canchita is on the house!" (using a gift or star icon).
+
+Functionality:
+
+Detail Modals: Clicking a dish should open a full-screen or centered modal showing a larger image, a detailed description, a full ingredient list, and explicit allergy warnings.
+
+Favorites System: Allow users to "Heart" items, storing their selections in local storage so they can easily find what they want to order when the server arrives.
+
+Responsive Design: The app must be optimized for mobile browsers (Safari/Chrome) as it will be accessed via QR code, but it should scale beautifully for tablets.
+
+Technical Stack:
+
+Frontend: React with Tailwind CSS.
+
+Icons: Lucide-React.
+
+Data Handling: Create a centralized menuData.json file to manage all content (Title, Price, Description, Image URL, Category, Allergy Tags, isWeekendSpecial: boolean).
+
+Deployment: Ensure the code is ready for immediate deployment on Replit.
+
+Goal: A seamless, appetizing, and highly functional digital experience that makes ordering intuitive and removes any friction regarding dietary concerns.
+
+Pro-Tips for your Replit Build:
+Image Management: Since Replit doesn't host large image databases well for free, I recommend uploading your photos to a service like Cloudinary or ImgBB and putting those direct links into the menuData.json that the Agent creates.
+
+The "Canchita" Factor: In the prompt, I specifically mentioned "Inca-style" and the "Canchita" note. This ensures the Agent treats these as high-priority UI elements rather than just plain text.
+
+Feedback Loop: Once Replit generates the first version, if the filters feel "clunky," just tell the Agent: "The filters are too slow, please use Framer Motion for the layout transitions." It will make the menu feel like a premium app.
