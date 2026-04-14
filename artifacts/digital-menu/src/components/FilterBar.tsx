@@ -1,24 +1,25 @@
-import { Leaf, Wheat, Nut, Flame, UtensilsCrossed, Coffee, IceCream, ChefHat, Heart, Star, Fish, Sprout, Wine, Soup, Salad } from "lucide-react";
+import { Leaf, Wheat, Nut, Flame, UtensilsCrossed, Coffee, IceCream, ChefHat, Heart, Fish, Sprout, Wine, Soup, Salad, LayoutGrid } from "lucide-react";
 
-export type Category = "All" | "Favorites" | "Appetizers" | "Salads" | "Soups" | "Ceviches" | "Entrees" | "Drinks" | "Desserts" | "Coffee" | "Tea";
+export type Section = "Food" | "Drinks" | "Favorites";
+export type FoodCategory = "All" | "Appetizers" | "Salads" | "Soups" | "Ceviches" | "Entrees" | "Desserts" | "Coffee" | "Tea";
 export type DietaryTag = "Gluten-Free" | "Vegetarian" | "Vegan" | "Nut-Free" | "Spicy" | "Seafood" | "Alcoholic";
 
 interface FilterBarProps {
-  activeCategory: Category;
-  onCategoryChange: (c: Category) => void;
+  activeSection: Section;
+  onSectionChange: (s: Section) => void;
+  activeFoodCategory: FoodCategory;
+  onFoodCategoryChange: (c: FoodCategory) => void;
   activeTags: DietaryTag[];
   onTagToggle: (t: DietaryTag) => void;
 }
 
-const CATEGORIES: { label: Category; icon: React.ReactNode }[] = [
-  { label: "All", icon: <Star className="w-3.5 h-3.5" /> },
-  { label: "Favorites", icon: <Heart className="w-3.5 h-3.5" /> },
+const FOOD_CATEGORIES: { label: FoodCategory; icon: React.ReactNode }[] = [
+  { label: "All", icon: <LayoutGrid className="w-3.5 h-3.5" /> },
   { label: "Appetizers", icon: <ChefHat className="w-3.5 h-3.5" /> },
   { label: "Salads", icon: <Salad className="w-3.5 h-3.5" /> },
   { label: "Soups", icon: <Soup className="w-3.5 h-3.5" /> },
   { label: "Ceviches", icon: <Fish className="w-3.5 h-3.5" /> },
   { label: "Entrees", icon: <UtensilsCrossed className="w-3.5 h-3.5" /> },
-  { label: "Drinks", icon: <Wine className="w-3.5 h-3.5" /> },
   { label: "Desserts", icon: <IceCream className="w-3.5 h-3.5" /> },
   { label: "Coffee", icon: <Coffee className="w-3.5 h-3.5" /> },
   { label: "Tea", icon: <Leaf className="w-3.5 h-3.5" /> },
@@ -34,31 +35,69 @@ const TAGS: { label: DietaryTag; icon: React.ReactNode; activeClass: string }[] 
   { label: "Alcoholic", icon: <Wine className="w-3 h-3" />, activeClass: "bg-purple-600 text-white border-purple-600" },
 ];
 
-export default function FilterBar({ activeCategory, onCategoryChange, activeTags, onTagToggle }: FilterBarProps) {
+export default function FilterBar({
+  activeSection,
+  onSectionChange,
+  activeFoodCategory,
+  onFoodCategoryChange,
+  activeTags,
+  onTagToggle,
+}: FilterBarProps) {
   return (
     <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border">
-      {/* Category Pills */}
-      <div className="flex gap-2 px-4 pt-3 pb-2 overflow-x-auto no-scrollbar">
-        {CATEGORIES.map(({ label, icon }) => (
-          <button
-            key={label}
-            data-testid={`filter-category-${label.toLowerCase().replace(/\s+/g, "-")}`}
-            onClick={() => onCategoryChange(label)}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap filter-pill border transition-all ${
-              activeCategory === label
-                ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
-            } ${label === "Favorites" && activeCategory !== "Favorites" ? "text-red-500/70" : ""}`}
-          >
-            <span className={activeCategory === label ? "text-primary-foreground" : label === "Favorites" ? "text-red-400" : "text-muted-foreground"}>
-              {icon}
-            </span>
-            {label}
-          </button>
-        ))}
+
+      {/* Top-level segmented control: Food | Drinks | Favorites */}
+      <div className="px-4 pt-3 pb-2.5">
+        <div className="flex rounded-xl overflow-hidden border border-border bg-muted/60 p-0.5 gap-0.5">
+          {(["Food", "Drinks", "Favorites"] as Section[]).map((section) => (
+            <button
+              key={section}
+              data-testid={`section-tab-${section.toLowerCase()}`}
+              onClick={() => onSectionChange(section)}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
+                activeSection === section
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {section === "Food" && <UtensilsCrossed className="w-3.5 h-3.5" />}
+              {section === "Drinks" && <Wine className="w-3.5 h-3.5" />}
+              {section === "Favorites" && (
+                <Heart
+                  className={`w-3.5 h-3.5 ${activeSection === "Favorites" ? "" : "text-red-400"}`}
+                  fill={activeSection === "Favorites" ? "currentColor" : "none"}
+                />
+              )}
+              {section}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Dietary Toggle Pills */}
+      {/* Food sub-category pills — only visible when Food is selected */}
+      {activeSection === "Food" && (
+        <div className="flex gap-2 px-4 pb-2 overflow-x-auto no-scrollbar">
+          {FOOD_CATEGORIES.map(({ label, icon }) => (
+            <button
+              key={label}
+              data-testid={`filter-category-${label.toLowerCase().replace(/\s+/g, "-")}`}
+              onClick={() => onFoodCategoryChange(label)}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap filter-pill border transition-all ${
+                activeFoodCategory === label
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
+              }`}
+            >
+              <span className={activeFoodCategory === label ? "text-primary-foreground" : "text-muted-foreground"}>
+                {icon}
+              </span>
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Dietary tag toggles */}
       <div className="flex gap-2 px-4 pb-3 overflow-x-auto no-scrollbar">
         {TAGS.map(({ label, icon, activeClass }) => {
           const isActive = activeTags.includes(label);
