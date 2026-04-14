@@ -10,7 +10,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 
 const items = menuData as MenuItem[];
 
-const CATEGORY_ORDER = ["Appetizers", "Main Courses", "Desserts", "Drinks"];
+const CATEGORY_ORDER = ["Appetizers", "Salads", "Soups", "Ceviches", "Entrees", "Drinks", "Desserts", "Coffee", "Tea"];
 
 export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState<Category>("All");
@@ -91,7 +91,7 @@ export default function MenuPage() {
 
         {/* Grouped Category Grids */}
         {Object.entries(groupedItems).map(([category, catItems]) => (
-          <section key={category} className="mt-5 px-4" data-testid={`section-${category.toLowerCase().replace(" ", "-")}`}>
+          <section key={category} className="mt-5 px-4" data-testid={`section-${category.toLowerCase().replace(/\s+/g, "-")}`}>
             {(activeCategory === "All" || activeCategory === "Favorites") && (
               <h2 className="font-serif font-bold text-xl text-foreground mb-3">{category}</h2>
             )}

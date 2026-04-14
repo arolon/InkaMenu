@@ -1,7 +1,7 @@
-import { Leaf, Wheat, Nut, Flame, UtensilsCrossed, Coffee, IceCream, ChefHat, Heart, Star } from "lucide-react";
+import { Leaf, Wheat, Nut, Flame, UtensilsCrossed, Coffee, IceCream, ChefHat, Heart, Star, Fish, Sprout, Wine, Soup, Salad } from "lucide-react";
 
-export type Category = "All" | "Appetizers" | "Main Courses" | "Desserts" | "Drinks" | "Favorites";
-export type DietaryTag = "Gluten-Free" | "Vegetarian" | "Nut-Free" | "Spicy";
+export type Category = "All" | "Favorites" | "Appetizers" | "Salads" | "Soups" | "Ceviches" | "Entrees" | "Drinks" | "Desserts" | "Coffee" | "Tea";
+export type DietaryTag = "Gluten-Free" | "Vegetarian" | "Vegan" | "Nut-Free" | "Spicy" | "Seafood" | "Alcoholic";
 
 interface FilterBarProps {
   activeCategory: Category;
@@ -14,16 +14,24 @@ const CATEGORIES: { label: Category; icon: React.ReactNode }[] = [
   { label: "All", icon: <Star className="w-3.5 h-3.5" /> },
   { label: "Favorites", icon: <Heart className="w-3.5 h-3.5" /> },
   { label: "Appetizers", icon: <ChefHat className="w-3.5 h-3.5" /> },
-  { label: "Main Courses", icon: <UtensilsCrossed className="w-3.5 h-3.5" /> },
+  { label: "Salads", icon: <Salad className="w-3.5 h-3.5" /> },
+  { label: "Soups", icon: <Soup className="w-3.5 h-3.5" /> },
+  { label: "Ceviches", icon: <Fish className="w-3.5 h-3.5" /> },
+  { label: "Entrees", icon: <UtensilsCrossed className="w-3.5 h-3.5" /> },
+  { label: "Drinks", icon: <Wine className="w-3.5 h-3.5" /> },
   { label: "Desserts", icon: <IceCream className="w-3.5 h-3.5" /> },
-  { label: "Drinks", icon: <Coffee className="w-3.5 h-3.5" /> },
+  { label: "Coffee", icon: <Coffee className="w-3.5 h-3.5" /> },
+  { label: "Tea", icon: <Leaf className="w-3.5 h-3.5" /> },
 ];
 
 const TAGS: { label: DietaryTag; icon: React.ReactNode; activeClass: string }[] = [
   { label: "Gluten-Free", icon: <Wheat className="w-3 h-3" />, activeClass: "bg-emerald-600 text-white border-emerald-600" },
   { label: "Vegetarian", icon: <Leaf className="w-3 h-3" />, activeClass: "bg-green-600 text-white border-green-600" },
+  { label: "Vegan", icon: <Sprout className="w-3 h-3" />, activeClass: "bg-lime-600 text-white border-lime-600" },
   { label: "Nut-Free", icon: <Nut className="w-3 h-3" />, activeClass: "bg-amber-600 text-white border-amber-600" },
   { label: "Spicy", icon: <Flame className="w-3 h-3" />, activeClass: "bg-red-600 text-white border-red-600" },
+  { label: "Seafood", icon: <Fish className="w-3 h-3" />, activeClass: "bg-blue-600 text-white border-blue-600" },
+  { label: "Alcoholic", icon: <Wine className="w-3 h-3" />, activeClass: "bg-purple-600 text-white border-purple-600" },
 ];
 
 export default function FilterBar({ activeCategory, onCategoryChange, activeTags, onTagToggle }: FilterBarProps) {
@@ -34,7 +42,7 @@ export default function FilterBar({ activeCategory, onCategoryChange, activeTags
         {CATEGORIES.map(({ label, icon }) => (
           <button
             key={label}
-            data-testid={`filter-category-${label.toLowerCase().replace(" ", "-")}`}
+            data-testid={`filter-category-${label.toLowerCase().replace(/\s+/g, "-")}`}
             onClick={() => onCategoryChange(label)}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap filter-pill border transition-all ${
               activeCategory === label
@@ -57,7 +65,7 @@ export default function FilterBar({ activeCategory, onCategoryChange, activeTags
           return (
             <button
               key={label}
-              data-testid={`filter-tag-${label.toLowerCase().replace("-", "")}`}
+              data-testid={`filter-tag-${label.toLowerCase().replace(/[^a-z]/g, "")}`}
               onClick={() => onTagToggle(label)}
               className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap filter-pill border transition-all ${
                 isActive

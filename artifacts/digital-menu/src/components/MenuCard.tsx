@@ -12,8 +12,11 @@ interface MenuCardProps {
 const TAG_COLORS: Record<string, string> = {
   "Gluten-Free": "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
   "Vegetarian": "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
+  "Vegan": "bg-lime-100 text-lime-700 dark:bg-lime-900/40 dark:text-lime-300",
   "Nut-Free": "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
   "Spicy": "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
+  "Seafood": "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+  "Alcoholic": "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
 };
 
 const MicrocopyIcon = ({ icon }: { icon: string }) => {
@@ -22,8 +25,11 @@ const MicrocopyIcon = ({ icon }: { icon: string }) => {
   return <Star className="w-3 h-3 text-yellow-500 flex-shrink-0" />;
 };
 
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&q=80";
+
 export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }: MenuCardProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
+  const imgSrc = item.image || PLACEHOLDER_IMAGE;
 
   return (
     <div
@@ -38,7 +44,7 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
           <div className="absolute inset-0 bg-muted animate-pulse" />
         )}
         <img
-          src={item.image}
+          src={imgSrc}
           alt={item.title}
           loading="lazy"
           onLoad={() => setImgLoaded(true)}
@@ -48,7 +54,7 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
         {/* Weekend Special Badge */}
         {item.isWeekendSpecial && (
           <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">
-            Weekend Special
+            Weekend
           </div>
         )}
 
@@ -74,19 +80,21 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
           <h3 className="font-serif font-semibold text-foreground text-base leading-tight line-clamp-1">
             {item.title}
           </h3>
-          <span className="text-primary font-semibold text-sm whitespace-nowrap">
-            ${item.price}
-          </span>
+          {item.price != null && (
+            <span className="text-primary font-semibold text-sm whitespace-nowrap">
+              ${item.price}
+            </span>
+          )}
         </div>
 
         <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-2.5">
           {item.description}
         </p>
 
-        {/* Tags */}
+        {/* Tags — show up to 2 to keep cards compact */}
         {item.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-2">
-            {item.tags.map((tag) => (
+            {item.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
                 className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${TAG_COLORS[tag] ?? "bg-secondary text-secondary-foreground"}`}
@@ -94,6 +102,11 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
                 {tag}
               </span>
             ))}
+            {item.tags.length > 2 && (
+              <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-secondary text-muted-foreground">
+                +{item.tags.length - 2}
+              </span>
+            )}
           </div>
         )}
 
