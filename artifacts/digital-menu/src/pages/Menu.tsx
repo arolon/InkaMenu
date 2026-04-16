@@ -95,7 +95,7 @@ export default function MenuPage() {
       {/* Header */}
       <header className="px-4 pt-8 pb-4 text-center" data-testid="header-menu">
         <img
-          src="/InkaLogo.png"
+          src="./InkaLogo.png"
           alt="El Inka logo"
           className="mx-auto mb-3 h-16 w-auto sm:h-20"
         />
