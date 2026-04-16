@@ -38,7 +38,7 @@ jobs:
         run: pnpm --filter @workspace/digital-menu run build
         env:
           PORT: 5173
-          BASE_PATH: /Asset-Linker/
+          BASE_PATH: /InkaMenu/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
