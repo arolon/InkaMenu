@@ -94,11 +94,18 @@ export default function MenuPage() {
     <div className="min-h-dvh bg-background" data-testid="page-menu">
       {/* Header */}
       <header className="px-4 pt-8 pb-4 text-center" data-testid="header-menu">
+        <img
+          src="/InkaLogo.png"
+          alt="El Inka logo"
+          className="mx-auto mb-3 h-16 w-auto sm:h-20"
+        />
         <div className="inline-block mb-1">
-          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-primary/70">Peruvian Bistro</span>
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-primary/70">Authentic Peruvian Cuisine</span>
         </div>
-        <h1 className="font-serif font-bold text-3xl text-foreground leading-tight">El Inca</h1>
-        <p className="text-muted-foreground text-sm mt-1">Taste the heritage. Feel the warmth.</p>
+        <h1 className="font-serif font-bold text-3xl text-foreground leading-tight">El Inka</h1>
+        <p className="text-muted-foreground text-sm mt-1">
+          Family-owned since 2018, bringing Peru&apos;s bold flavors to your table in a warm, casual setting.
+        </p>
       </header>
 
       {/* Sticky Filter Bar */}
