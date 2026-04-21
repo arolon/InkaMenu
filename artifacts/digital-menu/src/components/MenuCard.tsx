@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Heart, Flame, Gift, Star } from "lucide-react";
 import type { MenuItem } from "@/types/menu";
+import { useLanguage } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 interface MenuCardProps {
   item: MenuItem;
@@ -29,6 +31,7 @@ const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1567620905732-2d1ec
 
 export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }: MenuCardProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
+  const { language } = useLanguage();
   const imgSrc = item.image || PLACEHOLDER_IMAGE;
 
   return (
@@ -45,7 +48,7 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
         )}
         <img
           src={imgSrc}
-          alt={item.title}
+          alt={item.title[language]}
           loading="lazy"
           onLoad={() => setImgLoaded(true)}
           className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
@@ -54,7 +57,7 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
         {/* Weekend Special Badge */}
         {item.isWeekendSpecial && (
           <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">
-            Weekend
+            {t("Weekend Specials", language).replace("Specials", "").trim()}
           </div>
         )}
 
@@ -78,7 +81,7 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
       <div className="p-3.5">
         <div className="flex items-start justify-between gap-2 mb-1">
           <h3 className="font-serif font-semibold text-foreground text-base leading-tight line-clamp-1">
-            {item.title}
+            {item.title[language]}
           </h3>
           {item.price != null && (
             <span className="text-primary font-semibold text-sm whitespace-nowrap">
@@ -88,7 +91,7 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
         </div>
 
         <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-2.5">
-          {item.description}
+          {item.description[language]}
         </p>
 
         {/* Tags — show up to 2 to keep cards compact */}
@@ -99,7 +102,7 @@ export default function MenuCard({ item, isFavorite, onToggleFavorite, onClick }
                 key={tag}
                 className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${TAG_COLORS[tag] ?? "bg-secondary text-secondary-foreground"}`}
               >
-                {tag}
+                {t(tag, language)}
               </span>
             ))}
             {item.tags.length > 2 && (

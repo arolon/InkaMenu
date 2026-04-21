@@ -7,6 +7,9 @@ import MenuCard from "@/components/MenuCard";
 import ItemModal from "@/components/ItemModal";
 import WeekendSpecials from "@/components/WeekendSpecials";
 import { useFavorites } from "@/hooks/useFavorites";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useLanguage } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 const items = menuData as MenuItem[];
 
@@ -19,6 +22,7 @@ export default function MenuPage() {
   const [activeTags, setActiveTags] = useState<DietaryTag[]>([]);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const { favorites, toggleFavorite } = useFavorites();
+  const { language } = useLanguage();
 
   const handleSectionChange = (s: Section) => {
     setActiveSection(s);
@@ -93,18 +97,21 @@ export default function MenuPage() {
   return (
     <div className="min-h-dvh bg-background" data-testid="page-menu">
       {/* Header */}
-      <header className="px-4 pt-8 pb-4 text-center" data-testid="header-menu">
+      <header className="px-4 pt-8 pb-4 text-center relative" data-testid="header-menu">
+        <div className="absolute top-4 right-4 z-10">
+          <LanguageSelector />
+        </div>
         <img
           src="./InkaLogo.png"
           alt="El Inka logo"
           className="mx-auto mb-3 h-16 w-auto sm:h-20"
         />
         <div className="inline-block mb-1">
-          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-primary/70">Authentic Peruvian Cuisine</span>
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-primary/70">{t("Authentic Peruvian Cuisine", language)}</span>
         </div>
         <h1 className="font-serif font-bold text-3xl text-foreground leading-tight">El Inka</h1>
         <p className="text-muted-foreground text-sm mt-1">
-          Family-owned since 2018, bringing Peru&apos;s bold flavors to your table in a warm, casual setting.
+          {t("Family-owned since 2018, bringing Peru's bold flavors to your table in a warm, casual setting.", language)}
         </p>
       </header>
 
@@ -136,7 +143,7 @@ export default function MenuPage() {
         {activeSection === "Drinks" && filteredItems.length > 0 && (
           <div className="flex items-center gap-2 px-4 mt-5 mb-1">
             <Wine className="w-4 h-4 text-primary" />
-            <h2 className="font-serif font-bold text-xl text-foreground">Cocktails & Beverages</h2>
+            <h2 className="font-serif font-bold text-xl text-foreground">{t("Cocktails & Beverages", language)}</h2>
             <div className="flex-1 h-px bg-border" />
           </div>
         )}
@@ -155,7 +162,7 @@ export default function MenuPage() {
               data-testid={`section-${category.toLowerCase().replace(/\s+/g, "-")}`}
             >
               {showHeading && (
-                <h2 className="font-serif font-bold text-xl text-foreground mb-3">{category}</h2>
+                <h2 className="font-serif font-bold text-xl text-foreground mb-3">{t(category, language)}</h2>
               )}
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {catItems.map((item) => (
@@ -178,20 +185,20 @@ export default function MenuPage() {
             {activeSection === "Favorites" ? (
               <>
                 <Heart className="w-12 h-12 text-muted-foreground/40 mb-4" />
-                <p className="font-serif text-xl text-foreground mb-1">No favorites yet</p>
-                <p className="text-muted-foreground text-sm">Tap the heart on any dish to save it here.</p>
+                <p className="font-serif text-xl text-foreground mb-1">{t("No favorites yet", language)}</p>
+                <p className="text-muted-foreground text-sm">{t("Tap the heart on any dish to save it here.", language)}</p>
               </>
             ) : activeSection === "Drinks" ? (
               <>
                 <Wine className="w-12 h-12 text-muted-foreground/40 mb-4" />
-                <p className="font-serif text-xl text-foreground mb-1">No drinks found</p>
-                <p className="text-muted-foreground text-sm">Try adjusting your filters.</p>
+                <p className="font-serif text-xl text-foreground mb-1">{t("No drinks found", language)}</p>
+                <p className="text-muted-foreground text-sm">{t("Try adjusting your filters.", language)}</p>
               </>
             ) : (
               <>
                 <UtensilsCrossed className="w-12 h-12 text-muted-foreground/40 mb-4" />
-                <p className="font-serif text-xl text-foreground mb-1">No dishes found</p>
-                <p className="text-muted-foreground text-sm">Try adjusting your filters.</p>
+                <p className="font-serif text-xl text-foreground mb-1">{t("No dishes found", language)}</p>
+                <p className="text-muted-foreground text-sm">{t("Try adjusting your filters.", language)}</p>
               </>
             )}
           </div>

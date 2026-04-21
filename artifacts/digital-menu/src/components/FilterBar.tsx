@@ -1,4 +1,6 @@
 import { Leaf, Wheat, Nut, Flame, UtensilsCrossed, Coffee, IceCream, ChefHat, Heart, Fish, Sprout, Wine, Soup, Salad, LayoutGrid } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 export type Section = "Food" | "Drinks" | "Favorites";
 export type FoodCategory = "All" | "Appetizers" | "Salads" | "Soups" | "Ceviches" | "Entrees" | "Desserts" | "Coffee" | "Tea";
@@ -43,6 +45,8 @@ export default function FilterBar({
   activeTags,
   onTagToggle,
 }: FilterBarProps) {
+  const { language } = useLanguage();
+
   return (
     <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border">
 
@@ -68,7 +72,7 @@ export default function FilterBar({
                   fill={activeSection === "Favorites" ? "currentColor" : "none"}
                 />
               )}
-              {section}
+              {t(section, language)}
             </button>
           ))}
         </div>
@@ -91,7 +95,7 @@ export default function FilterBar({
               <span className={activeFoodCategory === label ? "text-primary-foreground" : "text-muted-foreground"}>
                 {icon}
               </span>
-              {label}
+              {t(label, language)}
             </button>
           ))}
         </div>
@@ -113,7 +117,7 @@ export default function FilterBar({
               }`}
             >
               {icon}
-              {label}
+              {t(label, language)}
             </button>
           );
         })}

@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { X, Heart, Flame, Gift, AlertTriangle, CheckCircle2 } from "lucide-react";
 import type { MenuItem } from "@/types/menu";
+import { useLanguage } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 interface ItemModalProps {
   item: MenuItem | null;
@@ -17,6 +19,7 @@ const TAG_COLORS: Record<string, string> = {
 };
 
 export default function ItemModal({ item, isFavorite, onToggleFavorite, onClose }: ItemModalProps) {
+  const { language } = useLanguage();
   useEffect(() => {
     if (!item) return;
     const prev = document.body.style.overflow;
@@ -51,7 +54,7 @@ export default function ItemModal({ item, isFavorite, onToggleFavorite, onClose 
         <div className="relative aspect-video overflow-hidden">
           <img
             src={item.image}
-            alt={item.title}
+            alt={item.title[language]}
             className="w-full h-full object-cover"
           />
 
@@ -86,7 +89,7 @@ export default function ItemModal({ item, isFavorite, onToggleFavorite, onClose 
             {/* Title + Favorite */}
             <div className="flex items-start justify-between gap-3 mb-2">
               <h2 className="font-serif font-bold text-2xl text-foreground leading-tight">
-                {item.title}
+                {item.title[language]}
               </h2>
               <button
                 data-testid="btn-modal-favorite"
@@ -107,7 +110,7 @@ export default function ItemModal({ item, isFavorite, onToggleFavorite, onClose 
                     key={tag}
                     className={`text-xs font-medium px-2.5 py-1 rounded-full ${TAG_COLORS[tag] ?? "bg-secondary text-secondary-foreground"}`}
                   >
-                    {tag}
+                    {t(tag, language)}
                   </span>
                 ))}
               </div>
@@ -115,7 +118,7 @@ export default function ItemModal({ item, isFavorite, onToggleFavorite, onClose 
 
             {/* Description */}
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-              {item.description}
+              {item.description[language]}
             </p>
 
             {/* Microcopy */}
@@ -134,12 +137,12 @@ export default function ItemModal({ item, isFavorite, onToggleFavorite, onClose 
             <div className="mb-4">
               <h4 className="font-semibold text-foreground text-sm mb-2 flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                Ingredients
+                {t("Ingredients", language)}
               </h4>
               <div className="flex flex-wrap gap-1.5">
-                {item.ingredients.map((ing) => (
+                {(item.ingredients[language] || item.ingredients.en || []).map((ing, i) => (
                   <span
-                    key={ing}
+                    key={`${ing}-${i}`}
                     className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full"
                   >
                     {ing}

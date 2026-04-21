@@ -1,5 +1,7 @@
 import { Sparkles } from "lucide-react";
 import type { MenuItem } from "@/types/menu";
+import { useLanguage } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 interface WeekendSpecialsProps {
   items: MenuItem[];
@@ -9,13 +11,14 @@ interface WeekendSpecialsProps {
 }
 
 export default function WeekendSpecials({ items, favorites, onToggleFavorite, onItemClick }: WeekendSpecialsProps) {
+  const { language } = useLanguage();
   if (items.length === 0) return null;
 
   return (
     <section className="mb-6" data-testid="section-weekend-specials">
       <div className="flex items-center gap-2 px-4 mb-3">
         <Sparkles className="w-4 h-4 text-primary" />
-        <h2 className="font-serif font-bold text-lg text-foreground">Weekend Specials</h2>
+        <h2 className="font-serif font-bold text-lg text-foreground">{t("Weekend Specials", language)}</h2>
         <div className="flex-1 h-px bg-border" />
       </div>
 
@@ -34,7 +37,7 @@ export default function WeekendSpecials({ items, favorites, onToggleFavorite, on
             <div className="relative aspect-[3/2] overflow-hidden">
               <img
                 src={item.image}
-                alt={item.title}
+                alt={item.title[language]}
                 loading="lazy"
                 className="w-full h-full object-cover mix-blend-overlay opacity-80"
               />
@@ -59,13 +62,13 @@ export default function WeekendSpecials({ items, favorites, onToggleFavorite, on
               </button>
 
               <div className="absolute bottom-0 left-0 right-0 p-3">
-                <p className="text-white font-serif font-bold text-base leading-tight line-clamp-1">{item.title}</p>
+                <p className="text-white font-serif font-bold text-base leading-tight line-clamp-1">{item.title[language]}</p>
                 <p className="text-white/80 text-xs mt-0.5">${item.price}</p>
               </div>
             </div>
 
             <div className="px-3 py-2">
-              <p className="text-white/90 text-xs leading-relaxed line-clamp-2">{item.description}</p>
+              <p className="text-white/90 text-xs leading-relaxed line-clamp-2">{item.description[language]}</p>
             </div>
           </div>
         ))}

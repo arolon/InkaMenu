@@ -1,3 +1,7 @@
+export type SupportedLanguage = 'en' | 'es' | 'pt' | 'fr' | 'de';
+
+export type LocalizedString = Record<SupportedLanguage, string>;
+
 export interface Microcopy {
   icon: string;
   text: string;
@@ -5,14 +9,14 @@ export interface Microcopy {
 
 export interface MenuItem {
   id: number;
-  title: string;
-  price: number;
-  description: string;
+  title: LocalizedString;
+  price: number | null;
+  description: LocalizedString;
   image: string;
   category: string;
   tags: string[];
   allergyWarnings: string[];
-  ingredients: string[];
+  ingredients: Record<SupportedLanguage, string[]>;
   isWeekendSpecial: boolean;
   microcopy: Microcopy | null;
 }
